@@ -11,7 +11,7 @@ format:
 ```{r}
 
 #| label: setup
-#| include: true
+#| include: false
 
 knitr::opts_chunk$set(
   echo = FALSE,        
