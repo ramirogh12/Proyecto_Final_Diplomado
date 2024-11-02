@@ -1,20 +1,22 @@
 ---
-title: "Proyecto Final Diplomado"
+title: "Influencia de las variables químicas sobre una comunidad de pequeños zooplancton en lagos del norte"
 author: "Ramiro A. Gómez Herrera"
 format: 
    html:
+     
      toc: true
      code-fold: show
-     
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r}
 
 #| label: setup
-#| include: false
+#| include: FALSE
 
 knitr::opts_chunk$set(
-  echo = FALSE,        
+  echo = TRUE,        
   warning = FALSE,    
   message = FALSE,   
   fig.width = 5,      
@@ -25,13 +27,138 @@ knitr::opts_chunk$set(
 
 ```
 
-
-```{r carga de datos}
-
-medicinal <- read.delim("bases/full_mat_final_figshare.xlsx")
-
+```{r Librerias utilizadas,  echo=FALSE, eval=TRUE}
+library(tidyverse)
+library(summarytools)
+library(openxlsx)
+library(performance)
+library(ggstatsplot)
+library(rstatix)
+library(pwr)
+library(pwr2)
+library(simr)
+library(nortest)
+library(car)
+library(ggplot2)
 ```
 
 
-## MI PROYECTO INICIAL
+ 
+
+
+## ANÁLISIS DE DATOS EXPLORATORIOS 
+
+```{r Carga de la base de datos,  echo=FALSE, eval=TRUE}
+
+zoo <- openxlsx::read.xlsx("bases/Mean_data_mejorada.xlsx")
+
+
+```
+ 
+La base de datos utilizada recopila datos sobre la química del agua, la temperatura y la abundancia relativa del zooplancton de lagos de Noruega y Suecia. El conjunto de datos contiene 15 variables, incluyendo la abundancia relativa de diferentes grupos de zooplancton; calanoides, ciclopoides, Daphnia, Holopedium y cladoceros de tamaño pequeño; cuatro variables relacionadas con la química del agua (Calcio = Ca, Fosforo total = TP, pH y Carbono orgánico total = TOC); el nombre de los lagos, el país a donde pertenece el lago, el estatus del lago (Neutro y ácido), la concentración de calcio (crítico, bajo y moderado). Los datos de abundancia fueron transformados en log(x) antes de los análisis para obtener una normalidad en esta variable. 
+
+```{r}
+str(zoo)
+```
+
+Para determinar la existencia de relaciones entre los parámetros químicos de agua, la temperatura y la abundancia relativa de pequeños cladoceros y Holopedium gibberum, utilizamos una prueba de correlación de Spearman para los 60 lagos estudiados. 
+
+```{r, echo=FALSE, eval=TRUE}
+zoo <- zoo %>% 
+  rowwise() %>% 
+  mutate(Abundancia_total = sum(c_across(13:14)))
+  
+```
+
+```{r, echo=FALSE, eval=TRUE}
+zoocor <- zoo[c(5:9, 13:15)]
+correlacion <- cor(zoocor, method = "spearman")
+correlacion
+```
+
+```{r, echo=FALSE, eval=TRUE}
+library(corrplot)
+corrplot(correlacion, method = 'circle',
+         type = "lower",
+         tl.col = "black",
+         tl.srt = 45,
+         colorRampPalette(c("red", "white", "blue"))
+         (200)
+         )
+
+```
+Figura 1. Matriz de correlación de Spearman realizada sobre las variables químicas, temperartura y zooplancton pequeño en 60 lagos del norte. 
+
+Con el análisis de correlación de Spearman, se observó que la temperatura presentó una relación fuerte con las variables químicas del agua (Ca, TP, pH, TOC). Las correlaciones más fuerte las tuvo con el Calcio (rho = 0.659) y el carbono orgánico total (rho = 0.621). Por su parte, existió relaciones negativas de los dos grupos de zooplancton con respecto a las variables químicas de los lagos y su temperatura. Cabe resaltar, que Holopedium gibberum fue el grupo que más se relacionó negativamente con estas variables. Los cladoceros pequeños se correlacionaron debilmente con el Ca y el pH.
+
+
+## PRUEBA DE HIPÓTESIS
+
+Para tener un patrón visual de cómo se comporta la abundancia relativa del zooplancton pequeño bajo diferentes concentraciones de calcio en los 6o lagos estudiados, se realizó una figura de caja y bigotes. Las concentraciones de calcio son: criticos (menor o igual a 1.5 mg L -1), baja (1.5 mg L -1 y 5 mg L -1) y moderada (mayor a 5 mg L -1)
+
+```{r, , echo=FALSE, eval=TRUE}
+zoo <- zoo %>% 
+  mutate(Con_Ca = stringr::str_trim(Con_Ca)) %>% 
+  mutate(Con_Ca = fct_relevel(Con_Ca, "Baja", "Critico", "Moderada"))
+```
+
+En la figura 2, se puede observar que, a niveles críticos de calcio en el agua, este grupo de zooplancton aumenta su abundancia relativa, por el contrario, a medida que las concentraciones de calcio se van elevando, el zooplancton pequeño experimenta disminuciones en sus abundancias relativas. Por otra parte, los valores de abundancia relativa presentan mayor dispersión en condiciones críticas de calcio en comparación con concentraciones bajas y moderadas de esta variable química.
+
+```{r, echo=FALSE, eval=TRUE}
+ggplot(zoo, aes(y = Abundancia_total, x = Con_Ca, color = Con_Ca))+
+  geom_boxplot()+
+labs(x = "Concentración de Calcio en los Lagos", y = "Abundancia relativa total")+
+  theme_bw()
+```
+Figura 2: Boxplot que muestra la relación entre la abundancia relativa total de zooplancton (Holopedium gibberum y cladoceros pequeños) y la concentración de calcio evaluada en cada lago evaulado. 
+
+```{r, echo=FALSE, eval=FALSE}
+anov <- aov(Abundancia_total ~ Con_Ca, data = zoo)
+summary(anov)
+
+### ASUNCIONES TEORICAS
+
+##NORMALIDAD 
+
+res <- residuals(anov)
+res
+
+tapply(res, zoo$Con_Ca, shapiro.test)
+
+## HOMOCEDASTICIDAD
+
+leveneTest(Abundancia_total ~ Con_Ca, data = zoo)
+
+```
+
+Al evaluar las asunciones de normalidad y homocedasticidad, se logró observar que, los datos seguían una distribución normal, sin embargo, no existió homogeneidad de varianza. Por ende, aplicamos una prueba de Kruskal-Wallis bajo las siguientes hipótesis:
+
+H0: No existe diferencias significativas en la distribución de la abundancia relativa total del zooplancton pequeño entre los niveles de concentración de calcio evaluado en los 60 lagos.
+
+H1: Al menos en un nivel de concentración de calcio evaluado en los lagos, la distribución de la abundancia relativa de los zooplancton pequeños es diferente significativamente.
+
+
+```{r, echo=TRUE, eval=TRUE}
+
+kruskal.test(Abundancia_total ~ Con_Ca, data = zoo)
+
+
+```
+
+La prueba de Kruskal-Wallis que evaluó las diferencias de la abundancia relativa del zooplancton de tamaño pequeño con respecto a las diferentes concentraciones de calcio encontradas en los lagos, muestra que existen diferencias estadísticamente significativas entre concentraciones, con un efecto positivo grande (chi-squared = 23.501, p-value = 0.000008629, n2= 0.40, Cl 95% [0,27, 1.00]).
+
+```{r, echo=TRUE, eval=TRUE}
+
+ggbetweenstats(zoo, y = Abundancia_total, x = Con_Ca, 
+               type = "np")
+```
+Figura 3. Gráfico de comparación de abundancia de zooplancton (Holopedium y Clodoceran.small) en tres concentraciones de calcio.
+
+En la figura 3, se lográ observar las comparaciones entre grupo con la prueba post-hoc (prueba de Dunn), con valores de p entre pares de categorías. Al revisar la comparativa entre los niveles de concentración de calcio crítica y moderada, se encontró que existen diferencias significativas entre ellas (pHolm-adj = 0.000616). Por su parte, se encontró diferencias significativas entre los niveles críticos y bajos de concentración de calcio (pHolm-adj = 0.0000197).
+
+
+
+
+
+
 

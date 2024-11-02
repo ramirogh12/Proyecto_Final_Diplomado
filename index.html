@@ -8,7 +8,7 @@
 
 <meta name="author" content="Ramiro A. Gómez Herrera">
 
-<title>Proyecto Final Diplomado</title>
+<title>Influencia de las variables químicas sobre una comunidad de pequeños zooplancton en lagos del norte</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -80,7 +80,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#mi-proyecto-inicial" id="toc-mi-proyecto-inicial" class="nav-link active" data-scroll-target="#mi-proyecto-inicial">MI PROYECTO INICIAL</a></li>
+  <li><a href="#análisis-de-datos-exploratorios" id="toc-análisis-de-datos-exploratorios" class="nav-link active" data-scroll-target="#análisis-de-datos-exploratorios">ANÁLISIS DE DATOS EXPLORATORIOS</a></li>
+  <li><a href="#prueba-de-hipótesis" id="toc-prueba-de-hipótesis" class="nav-link" data-scroll-target="#prueba-de-hipótesis">PRUEBA DE HIPÓTESIS</a></li>
   </ul>
 </nav>
 </div>
@@ -88,7 +89,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Proyecto Final Diplomado</h1>
+<h1 class="title">Influencia de las variables químicas sobre una comunidad de pequeños zooplancton en lagos del norte</h1>
 </div>
 
 
@@ -115,10 +116,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: setup</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| include: false</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| include: FALSE</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span>opts_chunk<span class="sc">$</span><span class="fu">set</span>(</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">echo =</span> <span class="cn">FALSE</span>,        </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">echo =</span> <span class="cn">TRUE</span>,        </span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">warning =</span> <span class="cn">FALSE</span>,    </span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">message =</span> <span class="cn">FALSE</span>,   </span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">fig.width =</span> <span class="dv">5</span>,      </span>
@@ -128,8 +129,113 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<section id="mi-proyecto-inicial" class="level2">
-<h2 class="anchored" data-anchor-id="mi-proyecto-inicial">MI PROYECTO INICIAL</h2>
+<section id="análisis-de-datos-exploratorios" class="level2">
+<h2 class="anchored" data-anchor-id="análisis-de-datos-exploratorios">ANÁLISIS DE DATOS EXPLORATORIOS</h2>
+<p>La base de datos utilizada recopila datos sobre la química del agua, la temperatura y la abundancia relativa del zooplancton de lagos de Noruega y Suecia. El conjunto de datos contiene 15 variables, incluyendo la abundancia relativa de diferentes grupos de zooplancton; calanoides, ciclopoides, Daphnia, Holopedium y cladoceros de tamaño pequeño; cuatro variables relacionadas con la química del agua (Calcio = Ca, Fosforo total = TP, pH y Carbono orgánico total = TOC); el nombre de los lagos, el país a donde pertenece el lago, el estatus del lago (Neutro y ácido), la concentración de calcio (crítico, bajo y moderado). Los datos de abundancia fueron transformados en log(x) antes de los análisis para obtener una normalidad en esta variable.</p>
+<div class="cell" data-layout-align="center">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(zoo)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   60 obs. of  14 variables:
+ $ Lakes           : chr  "Abiskojaure" "Älgsjön" "Allgjuttern" "Atnsjøen" ...
+ $ Country         : chr  "SWE" "SWE" "SWE" "NW" ...
+ $ Lake.Status     : chr  "Neutro" "Neutro" "Neutro" "Neutro" ...
+ $ Con_Ca          : chr  "Moderada" "Moderada" "Baja" "Critico" ...
+ $ Temperature     : num  2.91 10.7 10.83 4.91 8.98 ...
+ $ Ca              : num  5.395 5.502 3.17 0.846 1.006 ...
+ $ TP              : num  3.25 17.6 3.6 4 5.4 6.2 4.2 4.6 9 3.34 ...
+ $ pH              : num  7.23 6.72 6.53 6.43 5.59 ...
+ $ TOC             : num  1.52 19.2 7.58 1.36 4.84 ...
+ $ Calanoids       : num  0.5281 0.2101 0.3019 0.0225 0.1725 ...
+ $ Cyclopoids      : num  0.227 0.435 0.47 0.328 0.271 ...
+ $ Daphnia         : num  0.01117 0.14402 0.00912 0.19172 0 ...
+ $ Holopedium      : num  0.125 0 0.0317 0.0237 0.083 ...
+ $ Clodoceran.small: num  0.0864 0.1542 0.134 0.4016 0.4468 ...</code></pre>
+</div>
+</div>
+<p>Para determinar la existencia de relaciones entre los parámetros químicos de agua, la temperatura y la abundancia relativa de pequeños cladoceros y Holopedium gibberum, utilizamos una prueba de correlación de Spearman para los 60 lagos estudiados.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output cell-output-stdout">
+<pre><code>                 Temperature         Ca          TP          pH         TOC
+Temperature       1.00000000  0.6592106  0.53386524  0.33857119  0.62105951
+Ca                0.65921058  1.0000000  0.39382908  0.84555218  0.53264796
+TP                0.53386524  0.3938291  1.00000000  0.01838803  0.82726901
+pH                0.33857119  0.8455522  0.01838803  1.00000000  0.10639214
+TOC               0.62105951  0.5326480  0.82726901  0.10639214  1.00000000
+Holopedium       -0.48088888 -0.5685447 -0.48226559 -0.36536306 -0.53912479
+Clodoceran.small  0.03970713 -0.2152820 -0.02048645 -0.32214952 -0.04990275
+Abundancia_total -0.15363241 -0.4120033 -0.20100071 -0.43910029 -0.29013615
+                  Holopedium Clodoceran.small Abundancia_total
+Temperature      -0.48088888       0.03970713       -0.1536324
+Ca               -0.56854475      -0.21528202       -0.4120033
+TP               -0.48226559      -0.02048645       -0.2010007
+pH               -0.36536306      -0.32214952       -0.4391003
+TOC              -0.53912479      -0.04990275       -0.2901361
+Holopedium        1.00000000       0.01935377        0.3309049
+Clodoceran.small  0.01935377       1.00000000        0.9018616
+Abundancia_total  0.33090494       0.90186163        1.0000000</code></pre>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="480"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Figura 1. Matriz de correlación de Spearman realizada sobre las variables químicas, temperartura y zooplancton pequeño en 60 lagos del norte.</p>
+<p>Con el análisis de correlación de Spearman, se observó que la temperatura presentó una relación fuerte con las variables químicas del agua (Ca, TP, pH, TOC). Las correlaciones más fuerte las tuvo con el Calcio (rho = 0.659) y el carbono orgánico total (rho = 0.621). Por su parte, existió relaciones negativas de los dos grupos de zooplancton con respecto a las variables químicas de los lagos y su temperatura. Cabe resaltar, que Holopedium gibberum fue el grupo que más se relacionó negativamente con estas variables. Los cladoceros pequeños se correlacionaron debilmente con el Ca y el pH.</p>
+</section>
+<section id="prueba-de-hipótesis" class="level2">
+<h2 class="anchored" data-anchor-id="prueba-de-hipótesis">PRUEBA DE HIPÓTESIS</h2>
+<p>Para tener un patrón visual de cómo se comporta la abundancia relativa del zooplancton pequeño bajo diferentes concentraciones de calcio en los 6o lagos estudiados, se realizó una figura de caja y bigotes. Las concentraciones de calcio son: criticos (menor o igual a 1.5 mg L -1), baja (1.5 mg L -1 y 5 mg L -1) y moderada (mayor a 5 mg L -1)</p>
+<p>En la figura 2, se puede observar que, a niveles críticos de calcio en el agua, este grupo de zooplancton aumenta su abundancia relativa, por el contrario, a medida que las concentraciones de calcio se van elevando, el zooplancton pequeño experimenta disminuciones en sus abundancias relativas. Por otra parte, los valores de abundancia relativa presentan mayor dispersión en condiciones críticas de calcio en comparación con concentraciones bajas y moderadas de esta variable química.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="480"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Figura 2: Boxplot que muestra la relación entre la abundancia relativa total de zooplancton (Holopedium gibberum y cladoceros pequeños) y la concentración de calcio evaluada en cada lago evaulado.</p>
+<p>Al evaluar las asunciones de normalidad y homocedasticidad, se logró observar que, los datos seguían una distribución normal, sin embargo, no existió homogeneidad de varianza. Por ende, aplicamos una prueba de Kruskal-Wallis bajo las siguientes hipótesis:</p>
+<p>H0: No existe diferencias significativas en la distribución de la abundancia relativa total del zooplancton pequeño entre los niveles de concentración de calcio evaluado en los 60 lagos.</p>
+<p>H1: Al menos en un nivel de concentración de calcio evaluado en los lagos, la distribución de la abundancia relativa de los zooplancton pequeños es diferente significativamente.</p>
+<div class="cell" data-layout-align="center">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kruskal.test</span>(Abundancia_total <span class="sc">~</span> Con_Ca, <span class="at">data =</span> zoo)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Kruskal-Wallis rank sum test
+
+data:  Abundancia_total by Con_Ca
+Kruskal-Wallis chi-squared = 23.321, df = 2, p-value = 8.629e-06</code></pre>
+</div>
+</div>
+<p>La prueba de Kruskal-Wallis que evaluó las diferencias de la abundancia relativa del zooplancton de tamaño pequeño con respecto a las diferentes concentraciones de calcio encontradas en los lagos, muestra que existen diferencias estadísticamente significativas entre concentraciones, con un efecto positivo grande (chi-squared = 23.501, p-value = 0.000008629, n2= 0.40, Cl 95% [0,27, 1.00]).</p>
+<div class="cell" data-layout-align="center">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggbetweenstats</span>(zoo, <span class="at">y =</span> Abundancia_total, <span class="at">x =</span> Con_Ca, <span class="at">type =</span> <span class="st">"np"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="480"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Figura 3. Gráfico de comparación de abundancia de zooplancton (Holopedium y Clodoceran.small) en tres concentraciones de calcio.</p>
+<p>En la figura 3, se lográ observar las comparaciones entre grupo con la prueba post-hoc (prueba de Dunn), con valores de p entre pares de categorías. Al revisar la comparativa entre los niveles de concentración de calcio crítica y moderada, se encontró que existen diferencias significativas entre ellas (pHolm-adj = 0.000616). Por su parte, se encontró diferencias significativas entre los niveles críticos y bajos de concentración de calcio (pHolm-adj = 0.0000197).</p>
 </section>
 
 </main>
