@@ -8,7 +8,7 @@
 
 <meta name="author" content="Ramiro A. Gómez Herrera">
 
-<title>Influencia de las variables químicas sobre una comunidad de pequeños zooplancton en lagos del norte</title>
+<title>ABUNDANCIA FITOPLANCTÓNICA EN DIEZ LAGOS DE COLOMBIA Y SU RELACIÓN CON VARIABLES FISICOQUÍMICAS</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -55,7 +55,27 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="index_files/libs/clipboard/clipboard.min.js"></script>
@@ -80,8 +100,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#análisis-de-datos-exploratorios" id="toc-análisis-de-datos-exploratorios" class="nav-link active" data-scroll-target="#análisis-de-datos-exploratorios">ANÁLISIS DE DATOS EXPLORATORIOS</a></li>
-  <li><a href="#prueba-de-hipótesis" id="toc-prueba-de-hipótesis" class="nav-link" data-scroll-target="#prueba-de-hipótesis">PRUEBA DE HIPÓTESIS</a></li>
+  <li><a href="#introducción" id="toc-introducción" class="nav-link active" data-scroll-target="#introducción">INTRODUCCIÓN</a></li>
+  <li><a href="#objetivo" id="toc-objetivo" class="nav-link" data-scroll-target="#objetivo">OBJETIVO</a></li>
+  <li><a href="#estructura-de-la-base-de-datos" id="toc-estructura-de-la-base-de-datos" class="nav-link" data-scroll-target="#estructura-de-la-base-de-datos">ESTRUCTURA DE LA BASE DE DATOS</a>
+  <ul class="collapse">
+  <li><a href="#análisis-de-datos" id="toc-análisis-de-datos" class="nav-link" data-scroll-target="#análisis-de-datos">Análisis de datos</a></li>
+  </ul></li>
+  <li><a href="#resultados" id="toc-resultados" class="nav-link" data-scroll-target="#resultados">RESULTADOS</a>
+  <ul class="collapse">
+  <li><a href="#dinámica-del-fitoplancton" id="toc-dinámica-del-fitoplancton" class="nav-link" data-scroll-target="#dinámica-del-fitoplancton">Dinámica del fitoplancton</a></li>
+  <li><a href="#relación-entre-el-fitoplancton-y-las-variables-fisicoquímicas" id="toc-relación-entre-el-fitoplancton-y-las-variables-fisicoquímicas" class="nav-link" data-scroll-target="#relación-entre-el-fitoplancton-y-las-variables-fisicoquímicas">Relación entre el fitoplancton y las variables fisicoquímicas</a></li>
+  <li><a href="#diversidad-de-especies" id="toc-diversidad-de-especies" class="nav-link" data-scroll-target="#diversidad-de-especies">Diversidad de especies</a></li>
+  </ul></li>
+  <li><a href="#conclusiones" id="toc-conclusiones" class="nav-link" data-scroll-target="#conclusiones">CONCLUSIONES</a></li>
   </ul>
 </nav>
 </div>
@@ -89,7 +120,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Influencia de las variables químicas sobre una comunidad de pequeños zooplancton en lagos del norte</h1>
+<h1 class="title">ABUNDANCIA FITOPLANCTÓNICA EN DIEZ LAGOS DE COLOMBIA Y SU RELACIÓN CON VARIABLES FISICOQUÍMICAS</h1>
 </div>
 
 
@@ -119,7 +150,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| include: FALSE</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span>opts_chunk<span class="sc">$</span><span class="fu">set</span>(</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">echo =</span> <span class="cn">TRUE</span>,        </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">echo =</span> <span class="cn">FALSE</span>,        </span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">warning =</span> <span class="cn">FALSE</span>,    </span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">message =</span> <span class="cn">FALSE</span>,   </span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">fig.width =</span> <span class="dv">5</span>,      </span>
@@ -129,56 +160,80 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<section id="análisis-de-datos-exploratorios" class="level2">
-<h2 class="anchored" data-anchor-id="análisis-de-datos-exploratorios">ANÁLISIS DE DATOS EXPLORATORIOS</h2>
-<p>La base de datos utilizada recopila datos sobre la química del agua, la temperatura y la abundancia relativa del zooplancton de lagos de Noruega y Suecia. El conjunto de datos contiene 15 variables, incluyendo la abundancia relativa de diferentes grupos de zooplancton; calanoides, ciclopoides, Daphnia, Holopedium y cladoceros de tamaño pequeño; cuatro variables relacionadas con la química del agua (Calcio = Ca, Fosforo total = TP, pH y Carbono orgánico total = TOC); el nombre de los lagos, el país a donde pertenece el lago, el estatus del lago (Neutro y ácido), la concentración de calcio (crítico, bajo y moderado). Los datos de abundancia fueron transformados en log(x) antes de los análisis para obtener una normalidad en esta variable.</p>
-<div class="cell" data-layout-align="center">
-<details open="" class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(zoo)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>'data.frame':   60 obs. of  14 variables:
- $ Lakes           : chr  "Abiskojaure" "Älgsjön" "Allgjuttern" "Atnsjøen" ...
- $ Country         : chr  "SWE" "SWE" "SWE" "NW" ...
- $ Lake.Status     : chr  "Neutro" "Neutro" "Neutro" "Neutro" ...
- $ Con_Ca          : chr  "Moderada" "Moderada" "Baja" "Critico" ...
- $ Temperature     : num  2.91 10.7 10.83 4.91 8.98 ...
- $ Ca              : num  5.395 5.502 3.17 0.846 1.006 ...
- $ TP              : num  3.25 17.6 3.6 4 5.4 6.2 4.2 4.6 9 3.34 ...
- $ pH              : num  7.23 6.72 6.53 6.43 5.59 ...
- $ TOC             : num  1.52 19.2 7.58 1.36 4.84 ...
- $ Calanoids       : num  0.5281 0.2101 0.3019 0.0225 0.1725 ...
- $ Cyclopoids      : num  0.227 0.435 0.47 0.328 0.271 ...
- $ Daphnia         : num  0.01117 0.14402 0.00912 0.19172 0 ...
- $ Holopedium      : num  0.125 0 0.0317 0.0237 0.083 ...
- $ Clodoceran.small: num  0.0864 0.1542 0.134 0.4016 0.4468 ...</code></pre>
-</div>
-</div>
-<p>Para determinar la existencia de relaciones entre los parámetros químicos de agua, la temperatura y la abundancia relativa de pequeños cladoceros y Holopedium gibberum, utilizamos una prueba de correlación de Spearman para los 60 lagos estudiados.</p>
+<section id="introducción" class="level1">
+<h1>INTRODUCCIÓN</h1>
+<p>El fitoplancton es un grupo de organismos microscópicos que constituyen la base de las redes tróficas en los ecosistemas acuáticos <span class="citation" data-cites="winder2012">(<a href="#ref-winder2012" role="doc-biblioref">Winder and Sommer 2012</a>)</span>. Si bien la comunidad fitoplanctónica está conformada por organismos relativamente pequeños, estos son los responsables del 90% de la productividad primaria del océano y del 50 % en el planeta <span class="citation" data-cites="simon2008">(<a href="#ref-simon2008" role="doc-biblioref">Simon et al. 2008</a>)</span>. Asimismo, fitoplancton sirve de alimento a organismos superiores como el zooplancton, los macroinvertebrados y los peces <span class="citation" data-cites="roldán">(<a href="#ref-roldán" role="doc-biblioref">Roldán and Ramírez, n.d.</a>)</span>. Este grupo ha sido altamente utilizado como bioindicadores de la calidad del agua, en los procesos de contaminación orgánica y en la eutrofización de los ecosistemas acuáticos <span class="citation" data-cites="burkholder2007">(<a href="#ref-burkholder2007" role="doc-biblioref">Burkholder, Tomasko, and Touchette 2007</a>)</span>.</p>
+<p>Las dinámicas temporales y espaciales en las regiones tropicales presentan una influencia en la comunidad fitoplanctónica, lo cual produce diferencias entre las asociaciones de especies en las épocas seca y lluviosa <span class="citation" data-cites="ramírezbarón2016">(<a href="#ref-ramírezbarón2016" role="doc-biblioref">Ramírez Barón et al. 2016</a>)</span>. Por tal motivo, la composición y abundancia de este grupo obedece principalmente a las variaciones en las condiciones fisicoquímicas (luz, pH, temperatura, salinidad, tasa de sedimentación y nutrientes) de los ríos, lagos y lagunas <span class="citation" data-cites="vicente2005">(<a href="#ref-vicente2005" role="doc-biblioref">Vicente et al. 2005</a>)</span>. No obstante, en la actualidad, la calidad de los recursos hidrobiológicos se encuentran degradada por las múltiples actividades antropogénicas que ocasionan perjucios en la integridad y servicios ecosistémicos de estos <span class="citation" data-cites="santillán-aredo2018">(<a href="#ref-santillán-aredo2018" role="doc-biblioref">Santillán-Aredo and Guerrero-Padilla 2018</a>)</span>. Todos los cambios que ocurran en la calidad del agua trae consigo fluctuaciones en las variables fisicoquímicas y cambios en las comunidades bióticas, por tal motivo, es necesario determinar la relación entre la abundancia de las especies fitoplanctónicas y las variables fisicoquímicas de los ecosistemas acuáticos.</p>
+</section>
+<section id="objetivo" class="level1">
+<h1>OBJETIVO</h1>
+<p>Explorar la relación entre variables fisicoquímicas del agua y la estructura del fitoplancton en 10 lagos pertenecientes a las regiones Caribe, Andina y Amazónica de Colombia.</p>
+</section>
+<section id="estructura-de-la-base-de-datos" class="level1">
+<h1>ESTRUCTURA DE LA BASE DE DATOS</h1>
+<p>La base de datos que se utilizó para este informe contiene información sobre la abundancia obtenida de varios grupos de fitoplancton en diez lagos de Colombia y las características fisicoquímicas de cada uno de ellos. En cada uno de los lagos, se realizaron mediciones en varios puntos de muestreo. Cabe aclarar, que los lagos se encuentran repartidos en tres regiones geográficas del país. Cada fila de la matriz de datos representa una muestra tomada en un punto de muestreo específico. Estos datos fueron obtenidos de un banco de bases de datos utilizadas en un curso de estadística multivariada en un pregrado de Biología y procesados para evaluar relaciones y diferencias entre regiones. Las variables categóricas corresponden a los nombres de los lagos y a la región geográfica a la que pertenece cada uno. Las variables fisicoquímicas incluyen mediciones de nutrientes importantes en los ecosistemas acuáticos: nitrito (NO₂⁻) y nitrato (NO₃⁻), amonio (NH₄⁺) y silicio (SiO₂). Asimismo, contiene información sobre la abundancia de nueve grupos de fitoplancton. Estos grupos incluyen Cianophyceae, Euglenophyceae, Clorophyceae, Zygophyceae, Bacillariophyceae, Crysophyceae, Dinophyceae, Xanthophyceae.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output cell-output-stdout">
-<pre><code>                 Temperature         Ca          TP          pH         TOC
-Temperature       1.00000000  0.6592106  0.53386524  0.33857119  0.62105951
-Ca                0.65921058  1.0000000  0.39382908  0.84555218  0.53264796
-TP                0.53386524  0.3938291  1.00000000  0.01838803  0.82726901
-pH                0.33857119  0.8455522  0.01838803  1.00000000  0.10639214
-TOC               0.62105951  0.5326480  0.82726901  0.10639214  1.00000000
-Holopedium       -0.48088888 -0.5685447 -0.48226559 -0.36536306 -0.53912479
-Clodoceran.small  0.03970713 -0.2152820 -0.02048645 -0.32214952 -0.04990275
-Abundancia_total -0.15363241 -0.4120033 -0.20100071 -0.43910029 -0.29013615
-                  Holopedium Clodoceran.small Abundancia_total
-Temperature      -0.48088888       0.03970713       -0.1536324
-Ca               -0.56854475      -0.21528202       -0.4120033
-TP               -0.48226559      -0.02048645       -0.2010007
-pH               -0.36536306      -0.32214952       -0.4391003
-TOC              -0.53912479      -0.04990275       -0.2901361
-Holopedium        1.00000000       0.01935377        0.3309049
-Clodoceran.small  0.01935377       1.00000000        0.9018616
-Abundancia_total  0.33090494       0.90186163        1.0000000</code></pre>
+<pre><code>'data.frame':   86 obs. of  16 variables:
+ $ Región           : chr  "Amazonas" "Amazonas" "Amazonas" "Amazonas" ...
+ $ Lago             : chr  "Correo" "Correo" "Correo" "Correo" ...
+ $ Area             : num  1 2 3 4 5 6 7 8 9 1 ...
+ $ NO2              : num  0.182 0.154 0.248 0.134 0.156 0.193 0.137 0.117 0.143 0.146 ...
+ $ NO3              : num  0.359 0.348 0.345 0.124 0.187 0.123 0.126 0.101 0.169 0.203 ...
+ $ NH4              : num  3.36 2.94 2.34 2.54 2.02 2.66 2.68 2.14 3.19 3.75 ...
+ $ SiO2             : num  17.4 21.8 26.3 21.3 30.7 ...
+ $ Cianophyceae     : num  3400 1100 2000 1900 1200 2700 700 100 100 0 ...
+ $ Euglenophyceae   : num  102700 59600 32200 25400 18400 ...
+ $ Clorophyceae     : num  69000 16200 4500 9800 21000 23500 1500 1300 1900 1400 ...
+ $ Zygophyceae      : num  700 800 100 2700 200 700 200 200 400 0 ...
+ $ Bacillariophyceae: num  11000 7100 3700 11600 3900 13500 4300 1400 1800 11100 ...
+ $ Crysophyceae     : num  0 200 0 0 200 500 500 100 100 300 ...
+ $ Cryptophyceae    : num  3200 6400 1500 4600 300 7100 17200 3900 37600 79200 ...
+ $ Dinophyceae      : num  0 1200 1800 0 500 2100 700 2600 1400 500 ...
+ $ Xanthophyceae    : num  0 100 0 0 0 0 100 0 0 0 ...</code></pre>
 </div>
 </div>
+<section id="análisis-de-datos" class="level2">
+<h2 class="anchored" data-anchor-id="análisis-de-datos">Análisis de datos</h2>
+<p>Con la finalidad de evaluar las relaciones entre las abundancias del fitoplancton y las variables fisicoquímicas del agua en los lagos estudiados, se realizaron distintos análisis estadísticos descriptivos. Se realizó una matriz de correlación, la cual permitió identificar las relaciones entre variables. Cabe resaltar que para está se tuvo en cuenta el coeficiente de correlación de Spearman, donde la forma y el color del círculo determina el tipo de relación entre las variables pareadas. También se realizó un boxplots para comparar la abundancia total de fitoplancton entre las tres regiones geográficas del país (Amazonía, Andina y Caribe). En esta primera parte del análisis se utilizaron los paquetes de ggplot2 <span class="citation" data-cites="ggplot2">(<a href="#ref-ggplot2" role="doc-biblioref">Wickham 2016</a>)</span>, corrplot<span class="citation" data-cites="corrplot">(<a href="#ref-corrplot" role="doc-biblioref">Wei and Simko 2024</a>)</span> y tidyverse <span class="citation" data-cites="tidyverse">(<a href="#ref-tidyverse" role="doc-biblioref">Wickham et al. 2019</a>)</span>. Se verificó la normalidad y homocedasticidad de las variables mediante las pruebas de Shapiro-Wilk y Levene, respectivamente. Debido que los datos no presentaron una distribución normal, se realizó la prueba no paramétrica de Kruskal-Wallis, con el fin de evaluar si existen diferencias significativas en la distribución de la abundancia relativa de fitoplancton en las regiones geográficas de Colombia. Se realizó un análisis de redundancia (RDA) para explorar la relación entre las variables fisicoquimicas tomadas en cada lago y la comunidad fitoplanctonica y así poder identificar como la matriz de variables ambientales explican las posibles variaciones en los datos de la matriz biológica. Por último, se elaboró una curva de acumulación de especies para calcular el esfuerzo de muestreo y el porcentaje entre organismos observados y organismos esperados. Asimismo, se calcularon los números de diversidad de Hill por medio del número efectivo de especies presentes en el estudio.</p>
+</section>
+</section>
+<section id="resultados" class="level1">
+<h1>RESULTADOS</h1>
+<section id="dinámica-del-fitoplancton" class="level2">
+<h2 class="anchored" data-anchor-id="dinámica-del-fitoplancton">Dinámica del fitoplancton</h2>
+<p>El análisis de correlación de Spearman reveló que las variables fisicoquímicas mostraron en su mayoría relaciones débiles con la comunidad de fitoplancton encontrada en los diferentes lagos.</p>
 <div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="480"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Figura 1. Matriz de correlación de Spearman realizada sobre las variables químicas y fitoplancton en 10 lagos de Colombia.</p>
+<p>De las pocas relaciones observadas, la abundancia de Clorophyceae y Zygophyceae se correlacionaron negativamente con el silicio, el nitrato, nitrito y el amonio, mientras que Cryotophyceae, el nitrato y el amonio se correlacionaron positivamente (Fig 1).</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="480"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Figura 2: Boxplot que muestra la relación entre la abundancia total logaritmizada del fitoplancton en las tres regiones geográficas de Colombia.</p>
+<p>Por otra parte, tanto la región Amazónica como la región Andina muestran abundancias similares, sin embargo, hay mayor dispersión en la abundancia en la región amazónica que en la andina. Por su parte, la región Caribe presenta abundancia menor con respecto a las otras regiones (Fig 2).</p>
+<p>El análisis de Kruskal-Wallis mostró diferencias significativas (p &lt; 0.05) a nivel regional en la abundancia de fitoplancton. La fig.&nbsp;3 muestra las comparaciones entre regiones donde la región Caribe presenta la menor abundancia a comparación con las otras dos regiones.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Kruskal-Wallis rank sum test
+
+data:  Log_Abundancia by Región
+Kruskal-Wallis chi-squared = 31.219, df = 2, p-value = 1.663e-07</code></pre>
+</div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -187,58 +242,126 @@ Abundancia_total  0.33090494       0.90186163        1.0000000</code></pre>
 </div>
 </div>
 </div>
-<p>Figura 1. Matriz de correlación de Spearman realizada sobre las variables químicas, temperartura y zooplancton pequeño en 60 lagos del norte.</p>
-<p>Con el análisis de correlación de Spearman, se observó que la temperatura presentó una relación fuerte con las variables químicas del agua (Ca, TP, pH, TOC). Las correlaciones más fuerte las tuvo con el Calcio (rho = 0.659) y el carbono orgánico total (rho = 0.621). Por su parte, existió relaciones negativas de los dos grupos de zooplancton con respecto a las variables químicas de los lagos y su temperatura. Cabe resaltar, que Holopedium gibberum fue el grupo que más se relacionó negativamente con estas variables. Los cladoceros pequeños se correlacionaron debilmente con el Ca y el pH.</p>
+<p>Figura 3. Gráfico de comparación de la abundancia de fitoplancton entre las regiones Andina, Caribe y Amazonas.</p>
 </section>
-<section id="prueba-de-hipótesis" class="level2">
-<h2 class="anchored" data-anchor-id="prueba-de-hipótesis">PRUEBA DE HIPÓTESIS</h2>
-<p>Para tener un patrón visual de cómo se comporta la abundancia relativa del zooplancton pequeño bajo diferentes concentraciones de calcio en los 6o lagos estudiados, se realizó una figura de caja y bigotes. Las concentraciones de calcio son: criticos (menor o igual a 1.5 mg L -1), baja (1.5 mg L -1 y 5 mg L -1) y moderada (mayor a 5 mg L -1)</p>
-<p>En la figura 2, se puede observar que, a niveles críticos de calcio en el agua, este grupo de zooplancton aumenta su abundancia relativa, por el contrario, a medida que las concentraciones de calcio se van elevando, el zooplancton pequeño experimenta disminuciones en sus abundancias relativas. Por otra parte, los valores de abundancia relativa presentan mayor dispersión en condiciones críticas de calcio en comparación con concentraciones bajas y moderadas de esta variable química.</p>
+<section id="relación-entre-el-fitoplancton-y-las-variables-fisicoquímicas" class="level2">
+<h2 class="anchored" data-anchor-id="relación-entre-el-fitoplancton-y-las-variables-fisicoquímicas">Relación entre el fitoplancton y las variables fisicoquímicas</h2>
+<p>El análisis de redundancia evidenció a través de el scalling 2, la relación positiva entre nitrato con los grupos Xanthophyceae y Cyanophyceae, mientras que el silicato y el nitrito se relacionaron positvamente con los grupos Euglenophyceae y Cryptophyceae.</p>
 <div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="index_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="480"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>Figura 2: Boxplot que muestra la relación entre la abundancia relativa total de zooplancton (Holopedium gibberum y cladoceros pequeños) y la concentración de calcio evaluada en cada lago evaulado.</p>
-<p>Al evaluar las asunciones de normalidad y homocedasticidad, se logró observar que, los datos seguían una distribución normal, sin embargo, no existió homogeneidad de varianza. Por ende, aplicamos una prueba de Kruskal-Wallis bajo las siguientes hipótesis:</p>
-<p>H0: No existe diferencias significativas en la distribución de la abundancia relativa total del zooplancton pequeño entre los niveles de concentración de calcio evaluado en los 60 lagos.</p>
-<p>H1: Al menos en un nivel de concentración de calcio evaluado en los lagos, la distribución de la abundancia relativa de los zooplancton pequeños es diferente significativamente.</p>
-<div class="cell" data-layout-align="center">
-<details open="" class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kruskal.test</span>(Abundancia_total <span class="sc">~</span> Con_Ca, <span class="at">data =</span> zoo)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>
-    Kruskal-Wallis rank sum test
+Start: fitoy_chord ~ NO2 + NO3 + NH4 + SiO2 
 
-data:  Abundancia_total by Con_Ca
-Kruskal-Wallis chi-squared = 23.321, df = 2, p-value = 8.629e-06</code></pre>
+       Df    AIC      F Pr(&gt;F)   
+- NH4   1 168.78 1.5812  0.145   
+- SiO2  1 175.00 7.7747  0.005 **
+- NO2   1 175.45 8.2412  0.005 **
+- NO3   1 175.74 8.5410  0.005 **
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Step: fitoy_chord ~ NO2 + NO3 + SiO2 
+
+       Df    AIC       F Pr(&gt;F)   
+- NO3   1 174.31  7.5066  0.005 **
+- SiO2  1 175.52  8.7761  0.005 **
+- NO2   1 177.02 10.3692  0.005 **
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
-</div>
-<p>La prueba de Kruskal-Wallis que evaluó las diferencias de la abundancia relativa del zooplancton de tamaño pequeño con respecto a las diferentes concentraciones de calcio encontradas en los lagos, muestra que existen diferencias estadísticamente significativas entre concentraciones, con un efecto positivo grande (chi-squared = 23.501, p-value = 0.000008629, n2= 0.40, Cl 95% [0,27, 1.00]).</p>
-<div class="cell" data-layout-align="center">
-<details open="" class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggbetweenstats</span>(zoo, <span class="at">y =</span> Abundancia_total, <span class="at">x =</span> Con_Ca, <span class="at">type =</span> <span class="st">"np"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="index_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="480"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="480"></p>
 </figure>
 </div>
 </div>
 </div>
-<p>Figura 3. Gráfico de comparación de abundancia de zooplancton (Holopedium y Clodoceran.small) en tres concentraciones de calcio.</p>
-<p>En la figura 3, se lográ observar las comparaciones entre grupo con la prueba post-hoc (prueba de Dunn), con valores de p entre pares de categorías. Al revisar la comparativa entre los niveles de concentración de calcio crítica y moderada, se encontró que existen diferencias significativas entre ellas (pHolm-adj = 0.000616). Por su parte, se encontró diferencias significativas entre los niveles críticos y bajos de concentración de calcio (pHolm-adj = 0.0000197).</p>
+<p>Figura 4. Análisis de redundancia (RDA) en los diferentes muestreos evaluados entre la comunidad fitoplanctónica con las variables fisicoquímica de los lagos pertenecientes a la región Caribe, Andina y Amazonas.</p>
+</section>
+<section id="diversidad-de-especies" class="level2">
+<h2 class="anchored" data-anchor-id="diversidad-de-especies">Diversidad de especies</h2>
+<p>La diversidad de especies correspondiente al orden q0 (Riqueza de especies) evidencia que los lagos Correo (sitio 1) y Tarapoto (sitio 8) presentaron la mayor riqueza de fitoplancton, ambos con 8 especies observadas. Los demás lagos presentaron menor riqueza con: Fuquene (5), Guatavita (5), Iguaque (4), Momil (5), Purisima (4), Sebastián (6), Tota (5), Yahuarcaca (6) especies observadas.</p>
+<div class="cell" data-layout-align="center">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>hillR<span class="sc">::</span><span class="fu">hill_taxa</span>(fito_bio, <span class="at">q =</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sort</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code> 4  6  2  3  5  9  7 10  1  8 
+ 4  4  5  5  5  5  6  6  8  8 </code></pre>
+</div>
+</div>
+<p>Los sitios con mayor número efectivo de especies fueron Purísima (sitio 6 = 3.640557) y Iguaque (sitio 5 = 3.634766), respectivamente. De esta forma, se espera que la diversidad del lago Purísima sea igual a un sitio hipotetico con 3.640557 especies efectivas (que todas tengan la misma cantidad de individuos. Eveness total).</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output cell-output-stdout">
+<pre><code>       2        9       10        3        8        4        7        1 
+1.558434 1.651648 2.139163 2.171775 2.791088 2.929315 3.245395 3.557745 
+       5        6 
+3.634766 3.640557 </code></pre>
+</div>
+</div>
+<p>El lago Fuquene (sitio 2 = 1.235982) presenta el valor más bajo, indicando una alta dominancia en el sitio, determinando así una baja equitatividad.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output cell-output-stdout">
+<pre><code>       2        9        3       10        8        7        4        1 
+1.235982 1.326359 1.866615 2.036938 2.282669 2.577220 2.611500 2.777729 
+       6        5 
+3.352720 3.353604 </code></pre>
+</div>
+</div>
+<p>En la figura 4 se muestra un incremento en la riqueza acumulada de especies de fitoplancton al tener los primeros sitios muestreados, indicanco que en estos se encuentran la mayoría de especies. A partir del sitio seis, la curva alcanzó la asintota, mostrando que la mayoría de las especies presentes en el área de estudio se han registrado.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="480"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Figura 5. Curva de acumulación de especies basadas en los sitios muestreados. La línea representa la riqueza promedio acumulada de las especies de fitoplancton en función a los lagos muestreados.</p>
+</section>
+</section>
+<section id="conclusiones" class="level1">
+<h1>CONCLUSIONES</h1>
+<p>A pesar de la baja correlación general, el análisis mostró que ciertos grupos de fitoplancton sí responden a nutrientes específicos. Por ejemplo, Chlorophyceae y Zygophyceae se asociaron negativamente con nutrientes como silicato, nitrato, nitrito y amonio, mientras que Cryptophyceae y Cyanophyceae mostraron asociaciones positivas con nitrato y nitrito. Esto podría reflejar diferencias en las estrategias de adquisición de nutrientes entre los grupos taxonómicos. La abundancia de fitoplancton varió a nivel de regiones, ya que la región Caribe presentó niveles bajos en comparación con las otras regiones evaluadas. Lo anterior puede estar asociado a diferencias entre factores ambientales, como por ejemplo, baja disponibilidad de algunos nutrientes en los lagos de la región Caribe. El nitrato, el nitrito y el silicato presentaron un efecto significativo en la comunidad fitoplanctónica de los lagos según el análisis de redundancia (RDA), mientras que el amonio no contribuyó significativamente en la composición del fitoplancton. Teniendo en cuenta la diversidad efectiva, se logró observar que los lagos Purísima y Iguaque presentan comunidad de fitoplancton más equitativas, contrario a esto, el lago Fuquene estuvo dominado por pocas especies.</p>
+
 </section>
 
-</main>
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-burkholder2007" class="csl-entry" role="listitem">
+Burkholder, JoAnn M., David A. Tomasko, and Brant W. Touchette. 2007. <span>“Seagrasses and Eutrophication.”</span> <em>Journal of Experimental Marine Biology and Ecology</em> 350 (1-2): 46–72. <a href="https://doi.org/10.1016/j.jembe.2007.06.024">https://doi.org/10.1016/j.jembe.2007.06.024</a>.
+</div>
+<div id="ref-ramírezbarón2016" class="csl-entry" role="listitem">
+Ramírez Barón, Jeimmy Samanta, Andrés Franco Herrera, Lorena Marcela García Hoyos, and Diego Alejandro López. 2016. <span>“LA COMUNIDAD FITOPLANCTÓNICA DURANTE EVENTOS DE SURGENCIA Y NO SURGENCIA, EN LA ZONA COSTERA DEL DEPARTAMENTO DEL MAGDALENA, CARIBE COLOMBIANO.”</span> <em>Bulletin of Marine and Coastal Research</em> 39 (2). <a href="https://doi.org/10.25268/bimc.invemar.2010.39.2.150">https://doi.org/10.25268/bimc.invemar.2010.39.2.150</a>.
+</div>
+<div id="ref-roldán" class="csl-entry" role="listitem">
+Roldán, G, and J Ramírez. n.d. <em>Fundamentos de Limnología Neotropical.</em> Segunda Edición. Medellín: Editorial Universidad de Antioquia.
+</div>
+<div id="ref-santillán-aredo2018" class="csl-entry" role="listitem">
+Santillán-Aredo, Santos R., and Ana M. Guerrero-Padilla. 2018. <span>“Macroinvertebrados y Fitoplancton Como Bioindicadores de Contaminación En La Cuenca Del Río Chicama, Perú.”</span> <em>Revista Tecnología En Marcha</em>, November. <a href="https://doi.org/10.18845/tm.v31i4.3968">https://doi.org/10.18845/tm.v31i4.3968</a>.
+</div>
+<div id="ref-simon2008" class="csl-entry" role="listitem">
+Simon, Nathalie, Anne-Lise Cras, Elodie Foulon, and Rodolphe Lemée. 2008. <span>“Diversity and Evolution of Marine Phytoplankton.”</span> <em>Comptes Rendus. Biologies</em> 332 (2-3): 159–70. <a href="https://doi.org/10.1016/j.crvi.2008.09.009">https://doi.org/10.1016/j.crvi.2008.09.009</a>.
+</div>
+<div id="ref-vicente2005" class="csl-entry" role="listitem">
+Vicente, Eduardo, Caridad de Hoyos, Pedro Sánchez, and Jaume Cambra. 2005. <em>Metodología Para El Establecimiento El Estado Ecológico Según La Directiva MARCO Del Agua</em>. Confederación Hidrográfica del Ebro.
+</div>
+<div id="ref-corrplot" class="csl-entry" role="listitem">
+Wei, Taiyun, and Viliam Simko. 2024. <span>“R Package ’Corrplot’: Visualization of a Correlation Matrix.”</span> <a href="https://github.com/taiyun/corrplot">https://github.com/taiyun/corrplot</a>.
+</div>
+<div id="ref-ggplot2" class="csl-entry" role="listitem">
+Wickham, Hadley. 2016. <span>“Ggplot2: Elegant Graphics for Data Analysis.”</span> <a href="https://ggplot2.tidyverse.org">https://ggplot2.tidyverse.org</a>.
+</div>
+<div id="ref-tidyverse" class="csl-entry" role="listitem">
+Wickham, Hadley, Mara Averick, Jennifer Bryan, Winston Chang, Lucy D’Agostino McGowan, Romain François, Garrett Grolemund, et al. 2019. <span>“Welcome to the <span></span>Tidyverse<span></span>”</span> 4: 1686. <a href="https://doi.org/10.21105/joss.01686">https://doi.org/10.21105/joss.01686</a>.
+</div>
+<div id="ref-winder2012" class="csl-entry" role="listitem">
+Winder, Monika, and Ulrich Sommer. 2012. <span>“Phytoplankton Response to a Changing Climate.”</span> <em>Hydrobiologia</em> 698 (1): 5–16. <a href="https://doi.org/10.1007/s10750-012-1149-2">https://doi.org/10.1007/s10750-012-1149-2</a>.
+</div>
+</div></section></div></main>
 <!-- /main column -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {

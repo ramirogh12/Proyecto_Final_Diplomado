@@ -1,0 +1,7 @@
+library(vegan)
+data(BCI)
+data(BCI.env)
+
+Tree counts in 1-hectare plots in the Barro Colorado Island and associated site information.
+
+https://science.sciencemag.org/content/suppl/2002/01/24/295.5555.666.DC1
