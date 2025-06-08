@@ -14,7 +14,7 @@ bibliography: references.bib
 ```{r}
 
 #| label: setup
-#| include: FALSE
+#| include: false
 
 knitr::opts_chunk$set(
   echo = FALSE,        
